@@ -19,9 +19,9 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-########## REGLAGES
+########## SETTINGS
 # Résolutions à télécharger
-resolutions=('1680x1050','1280x1024','1024x768')
+resolutions = ('1680x1050','1280x1024','1024x768')
 ########## REGLAGES
 
 from xml.dom.minidom import parse
@@ -75,6 +75,7 @@ if __name__ == '__main__':
 				file_path_save = os.path.join(dossier,reso,filename)
 
 				if not os.path.isfile(file_path_save):
+					print u"Téléchargement de %s pour la résolution %s" %(filename, reso)
 					url = 'http://interfacelift.com/wallpaper_beta/grab/%s' % filename
 					img_obj = urllib.urlopen(url)
 					img_data = img_obj.read()
@@ -83,4 +84,3 @@ if __name__ == '__main__':
 					   file_obj = open(file_path_save, 'w')
 					   file_obj.write(img_data)
 					   file_obj.close()
-					   print u"Image %s enregistrée pour la résolution %s" %(filename, reso)
