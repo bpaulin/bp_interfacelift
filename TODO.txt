@@ -1,0 +1,3 @@
+- Commentaires
+- Traduction en anglais
+- Test sur XP, Vista, etc...
