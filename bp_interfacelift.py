@@ -20,13 +20,19 @@
 #       MA 02110-1301, USA.
 
 ########## SETTINGS
-# Résolutions à télécharger
-resolutions = ('1680x1050','1280x1024','1024x768')
-########## REGLAGES
+# Resolutions
+# 2560x1600, 2560x1440, 2560x1024, 1920x1200, 1920x1080, 1680x1050, 1600x1200
+# 1600x900, 1440x900, 1400x1050, 1280x1024, 1280x960, 1280x800, 1280x720
+# 1024x1024, 1024x768, 1024x600, 800x480, 640x960, 480x272, 320x480, 320x240
+# resolutions = ('1680x1050','1280x1024','1024x768')
+Resolutions = ('1680x1050','1280x1024','1024x768')
+SaveTo = 'Images'
+########## SETTINGS
 
 from xml.dom.minidom import parse
 import os
 import urllib
+
 
 def get_value_tag(name_tag,root_tag):
 	tag = root_tag.getElementsByTagName(name_tag)
@@ -36,50 +42,55 @@ def get_value_tag(name_tag,root_tag):
 		return None if not first_child else first_child.data
 	else:
 		return None
+#def get_value_tag(name_tag,root_tag):
 
 if __name__ == '__main__':
 
-	#Préparation des dossier
-	for reso in resolutions:
-		dossier = os.path.join(os.path.expanduser('~'), 'Images', 'Wallpapers')
-
+	# Checking directories
+	for reso in Resolutions:
+		dir = os.path.join(os.path.expanduser('~'), SaveTo, 'Wallpapers')
+		# Making directories
 		try:
-			os.makedirs(os.path.join(dossier,reso))
-		except OSError:
-			pass # les répertoires existent déjà
+			os.makedirs(os.path.join(dir,reso))
+		except OSError: # Directory exists
+			pass
+
+	# Opening xml
 	page = urllib.urlopen('http://feeds.feedburner.com/InterfaceliftNewestWallpaper?format=xml')
-	doc = parse(page)#'Ouverture' du xml
+	doc = parse(page)
 	items = doc.getElementsByTagName('item')
-	nb=0
 
+	# For each pictures
 	for item in items:
-		descri = get_value_tag('description', item )
-
+		# Checking resolutions
+		descri = get_value_tag('description', item)
 		if not descri:
 		   continue
-		check_reso  = [reso for reso in resolutions if reso in descri]
-
+		check_reso = [reso for reso in Resolutions if reso in descri]#resolutions wanted for this picture
+		
 		if check_reso:
-			title = get_value_tag('title', item)
-			guid = get_value_tag('guid', item)
-			print title
-
+			# Getting picture's detail
+			title = get_value_tag('title', item)#picture title
+			guid = get_value_tag('guid', item)#picture's page url
 			if not(title and guid):
-				continu
-			title = title.lower().replace(' ','').replace('-','').replace('.','')
+				continue
+			print title
+			name = title.lower().replace(' ','').replace('-','').replace('.','')#picture name
 			
+			# For each resolutions
 			for reso in check_reso:
+				# Checking if file exists
 				filename = '%s_%s_%s.jpg' %( [node for node in guid.split('/') if node][-1].rjust(5, '0'),
-										 title,
+										 name,
 										  reso)
-				file_path_save = os.path.join(dossier,reso,filename)
-
+				file_path_save = os.path.join(dir,reso,filename)
 				if not os.path.isfile(file_path_save):
-					print u"Téléchargement de %s pour la résolution %s" %(filename, reso)
+					# Downloading picture
+					print u"Downloading %s for resolution %s" %(filename, reso)
 					url = 'http://interfacelift.com/wallpaper_beta/grab/%s' % filename
 					img_obj = urllib.urlopen(url)
-					img_data = img_obj.read()
-					
+					img_data = img_obj.read()	
+					# Saving picture
 					if img_data :
 					   file_obj = open(file_path_save, 'w')
 					   file_obj.write(img_data)
