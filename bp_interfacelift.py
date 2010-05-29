@@ -21,13 +21,16 @@
 
 
 ########## SETTINGS
-# Resolutions
+# Resolutions to choose among this list
 # 2560x1600, 2560x1440, 2560x1024, 1920x1200, 1920x1080, 1680x1050, 1600x1200
 # 1600x900, 1440x900, 1400x1050, 1280x1024, 1280x960, 1280x800, 1280x720
 # 1024x1024, 1024x768, 1024x600, 800x480, 640x960, 480x272, 320x480, 320x240
 Resolutions = ('1680x1050','1280x1024','1024x768')
+# Directory in which the 'wallpapers' directory will be
 SaveTo = 'Images'
+# interfacelift feed url
 UrlXml = 'http://feeds.feedburner.com/InterfaceliftNewestWallpaper?format=xml'
+# Picture url (%s will be the picture name)
 UrlPicture = 'http://interfacelift.com/wallpaper_beta/grab/%s'
 ########## SETTINGS
 
@@ -38,7 +41,7 @@ import urllib
 import getopt, sys
 
 
-def GetValueTag(name_tag,root_tag):###########################################
+def GetValueTag(name_tag,root_tag):#############################################
 	tag = root_tag.getElementsByTagName(name_tag)
 	if tag:
 		tag = tag[0]
@@ -46,7 +49,7 @@ def GetValueTag(name_tag,root_tag):###########################################
 		return None if not first_child else first_child.data
 	else:
 		return None
-###########################################def GetValueTag(name_tag,root_tag):
+#############################################def GetValueTag(name_tag,root_tag):
 
 
 def GetImage(url, path_save):##################################################
@@ -92,7 +95,7 @@ def Download():#################################################################
 		check_reso = [reso for reso in Resolutions if reso in descri]#resolutions wanted for this picture
 		
 		if check_reso:
-			# Getting picture's detail
+			# Getting picture's details
 			title = GetValueTag('title', item)#picture title
 			guid = GetValueTag('guid', item)#picture's page url
 			if not(title and guid):
