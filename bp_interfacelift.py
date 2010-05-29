@@ -19,6 +19,7 @@
 #	   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #	   MA 02110-1301, USA.
 
+
 ########## SETTINGS
 # Resolutions
 # 2560x1600, 2560x1440, 2560x1024, 1920x1200, 1920x1080, 1680x1050, 1600x1200
