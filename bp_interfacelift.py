@@ -32,6 +32,8 @@ SaveTo = 'Images'
 UrlXml = 'http://feeds.feedburner.com/InterfaceliftNewestWallpaper?format=xml'
 # Picture url (%s will be the picture name)
 UrlPicture = 'http://interfacelift.com/wallpaper_beta/grab/%s'
+#
+UrlDirPreview = 'http://interfacelift.com/wallpaper_beta/previews/'
 ########## SETTINGS
 
 
@@ -101,8 +103,8 @@ def Download():#################################################################
 			if not(title and guid):
 				continue
 			print title
-			name = [preview for preview in descri.split(' ') if preview.count('src="http://interfacelift.com/wallpaper_beta/previews/')][0]\
-					.replace('src="http://interfacelift.com/wallpaper_beta/previews/','').replace('.jpg"', '')
+			name = [preview for preview in descri.split(' ') if preview.count('src="%s'%UrlDirPreview)][0]\
+					.replace('src="%s'%UrlDirPreview,'').replace('.jpg"', '')
 			
 			# For each resolutions
 			for reso in check_reso:
