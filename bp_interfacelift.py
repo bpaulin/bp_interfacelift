@@ -101,14 +101,13 @@ def Download():#################################################################
 			if not(title and guid):
 				continue
 			print title
-			name = title.lower().replace(' ','').replace('-','').replace('.','')#picture name
+			name = [preview for preview in descri.split(' ') if preview.count('src="http://interfacelift.com/wallpaper_beta/previews/')][0]\
+					.replace('src="http://interfacelift.com/wallpaper_beta/previews/','').replace('.jpg"', '')
 			
 			# For each resolutions
 			for reso in check_reso:
 				# Checking if file exists
-				filename = '%s_%s_%s.jpg' %( [node for node in guid.split('/') if node][-1].rjust(5, '0'),
-										 name,
-										  reso)
+				filename = '%s_%s.jpg' %( name, reso)
 				file_path_save = os.path.join(dir,reso,filename)
 				if not os.path.isfile(file_path_save):
 					

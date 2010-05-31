@@ -1,0 +1,7 @@
+2010-05-31  Bruno Paulin
+
+ * Change how to guess the picture name, from its title to its description
+	( because of this kind of picture : http://interfacelift.com/wallpaper_beta/details/2260/norwegian_coast_2.html
+	the '_2' part is not in the picture name)
+
+
